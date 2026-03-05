@@ -1,25 +1,30 @@
-from django.db import models
+from djongo import models
 
 class User(models.Model):
+    _id = models.ObjectIdField(primary_key=True, editable=False)
     name = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
     team = models.CharField(max_length=50)
 
 class Team(models.Model):
+    _id = models.ObjectIdField(primary_key=True, editable=False)
     name = models.CharField(max_length=50, unique=True)
     description = models.TextField(blank=True)
 
 class Activity(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    _id = models.ObjectIdField(primary_key=True, editable=False)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, to_field='_id')
     type = models.CharField(max_length=50)
     duration = models.IntegerField()
     date = models.DateField()
 
 class Leaderboard(models.Model):
-    team = models.ForeignKey(Team, on_delete=models.CASCADE)
+    _id = models.ObjectIdField(primary_key=True, editable=False)
+    team = models.ForeignKey(Team, on_delete=models.CASCADE, to_field='_id')
     points = models.IntegerField(default=0)
 
 class Workout(models.Model):
+    _id = models.ObjectIdField(primary_key=True, editable=False)
     name = models.CharField(max_length=100)
     description = models.TextField()
     suggested_for = models.CharField(max_length=50)
